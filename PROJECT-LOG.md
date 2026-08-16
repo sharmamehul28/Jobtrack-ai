@@ -6,8 +6,6 @@ A running record of daily progress across the 10-day capstone. Updated at the en
 
 ## Day 1 — Product Discovery & Sprint Planning
 
-**Date:** Day 1 of capstone
-
 **Completed:**
 - Interviewed to discover and validate the JobTrack AI concept
 - Scoped v1.0 feature set, explicitly bounded out-of-scope items
@@ -20,53 +18,55 @@ A running record of daily progress across the 10-day capstone. Updated at the en
 
 ## Day 2 — System Design
 
-**Date:** Day 2 of capstone
-
 **Completed:**
 - Created GitHub repository (`jobtrack-ai`), cloned locally
 - Scaffolded React + Vite app, installed and configured Tailwind CSS
-- Designed complete system architecture (component diagram, data flow, request lifecycle, auth flow, assistant logic flow)
-- Designed and validated database schema (`applications`, `resume_versions`) against every PRD functional requirement — no gaps found
-- Documented full API surface (12 Supabase operations + 6 client-only derived functions) — confirmed no custom backend server is needed
-- Designed complete user flow, screen flow, and 6 low-fidelity wireframes
-- Documented full project folder structure with a day-by-day file ownership map
+- Designed complete system architecture, database schema, API surface, UI wireframes, and project folder structure — all validated against the PRD
 
 **Deliverables:** `docs/ARCHITECTURE.md`, `docs/SCHEMA.md`, `docs/API.md`, `docs/UI-WIREFRAMES.md`, `docs/PROJECT-STRUCTURE.md`, `docs/wireframes/*.png`
 
-**Carried over to Day 3 (not a delay — mechanical setup only, no new design work):**
-- Create the live Supabase project
-- Run `SCHEMA.md`'s SQL script (tables + RLS policies)
-- Connect Supabase client to the React app (`.env`, `supabaseClient.js`)
-- First deploy to Vercel
-
-**Notes:** No scope changes. No conflicts found between today's design work and the approved PRD/Blueprint.
+**Carried over to Day 3:** Supabase project creation, schema execution, client connection, first deploy.
 
 ---
 
 ## Day 3 — Project Setup & Foundation
 
-**Date:** Day 3 of capstone
-
 **Completed:**
-- Created and provisioned Supabase project (`jobtrack-ai`, Sydney region, Free tier) — closing out the item carried over from Day 2
-- Executed full schema SQL: `applications` and `resume_versions` tables created, Row Level Security enabled with all 8 policies applied
-- Created `.env` with Supabase credentials; confirmed excluded from Git
-- Created `src/lib/supabaseClient.js` and verified live connection with a real test query
-- Built out full folder structure (`src/lib`, `src/pages`, `src/context`, `src/components`) matching `PROJECT-STRUCTURE.md`
-- Installed and configured React Router; implemented and verified 4-route skeleton (`/`, `/login`, `/signup`, `/dashboard`)
-- Scaffolded `AuthContext.jsx` (session detection, signUp/signIn/signOut methods); verified live via Dashboard test
-- Verified clean production build (`npm run build`)
+- Created and provisioned Supabase project; executed full schema SQL (tables + RLS)
+- Connected Supabase client to React app, verified with live query
+- Built full folder structure; implemented routing skeleton (4 placeholder routes)
+- Scaffolded `AuthContext.jsx`, verified session-detection logic works
 
 **Deliverables:** `docs/SETUP.md`, `docs/ENVIRONMENT.md`, `docs/DAY3-SUMMARY.md`
 
-**Issue encountered & resolved:** Initial `.env` used the Supabase dashboard URL instead of the project API URL, causing a failed connection test. Self-diagnosed and corrected; documented in `SETUP.md`.
+**Issue resolved:** `.env` initially used the wrong Supabase URL (dashboard URL instead of project API URL) — self-diagnosed and fixed.
 
-**Notes:** No scope changes. No changes required to the Implementation Blueprint — today's work matches its Day 3 foundation expectations exactly, with the Day 2 Supabase carry-over completed first. Deployment to Vercel (originally slated as part of the Day 2/3 carry-over) was not reached today — see Day 4 planning note below.
-
-**Carried forward:** First deploy to Vercel was not completed today. This is a small, mechanical task (no design work) and will be folded into Day 4 alongside the authentication flow build, so the app is verified live in production as soon as real auth features exist to test.
+**Carried forward:** Vercel deployment.
 
 ---
 
-## Day 4 — (Not yet started)
+## Day 4 — Core Feature Implementation (Auth + Application Tracker CRUD)
 
-*To be filled in at the end of Day 4.*
+**Completed:**
+- **Vercel deployment** completed (closing the Day 2/3 carry-over) — live URL confirmed working for the landing page; a separate SPA routing issue on direct navigation to `/login`, `/signup`, `/dashboard` was identified and is still being debugged (see Known Issues below)
+- **Auth pulled forward and fully built:** Signup, Login, Logout, session persistence — all 6 test cases verified working after resolving a root-cause bug (Supabase's "Confirm Email" setting was blocking session creation on signup; disabled, issue resolved)
+- **Application Tracker — full CRUD implemented and verified:**
+  - Create: `AddApplication.jsx`, verified real rows inserted with correct `user_id`
+  - Read: `ApplicationsList.jsx` on Dashboard, verified showing real data
+  - Update: `EditApplication.jsx`, verified pre-fill + save, verified `status_updated_at` only changes when status actually changes (matches `API.md` exactly)
+  - Delete: verified removing rows from both UI and Supabase, with confirmation prompt
+  - Status filter: verified narrowing the list correctly across all 5 statuses
+
+**Deliverables:** `docs/DAY4-SUMMARY.md`
+
+**Notes:** Auth was deliberately reordered ahead of CRUD (was originally slated partly for Day 3) so CRUD could be tested against real user sessions instead of mock data — a sequencing decision, not scope creep. No PRD conflicts.
+
+**Known issues carried into Day 5 (must be addressed first, before new features):**
+1. `ProtectedRoute.jsx` does not exist yet — authenticated routes are not actually access-controlled by redirect, only by graceful degradation in the UI. Originally Day 3 scope; twice deferred now.
+2. Vercel SPA routing returns 404 on direct navigation to any route other than `/` — `vercel.json` rewrite rule was added but has not yet resolved the issue; a systematic debug session was started (browser console check) but paused to prioritize CRUD implementation. Needs to be resumed and completed.
+
+---
+
+## Day 5 — (Not yet started)
+
+*To be filled in at the end of Day 5. Must open with: (1) ProtectedRoute implementation, (2) Vercel routing fix — before Resume Version Manager work begins.*
