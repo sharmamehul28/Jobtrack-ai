@@ -39,10 +39,34 @@ A running record of daily progress across the 10-day capstone. Updated at the en
 - Connect Supabase client to the React app (`.env`, `supabaseClient.js`)
 - First deploy to Vercel
 
-**Notes:** No scope changes. No conflicts found between today's design work and the approved PRD/Blueprint. Day 2's original plan included Supabase setup and first deploy — these are simple execution steps (the SQL is already written) and will be completed first thing on Day 3 before starting that day's actual planned work (auth flow).
+**Notes:** No scope changes. No conflicts found between today's design work and the approved PRD/Blueprint.
 
 ---
 
-## Day 3 — (Not yet started)
+## Day 3 — Project Setup & Foundation
 
-*To be filled in at the end of Day 3.*
+**Date:** Day 3 of capstone
+
+**Completed:**
+- Created and provisioned Supabase project (`jobtrack-ai`, Sydney region, Free tier) — closing out the item carried over from Day 2
+- Executed full schema SQL: `applications` and `resume_versions` tables created, Row Level Security enabled with all 8 policies applied
+- Created `.env` with Supabase credentials; confirmed excluded from Git
+- Created `src/lib/supabaseClient.js` and verified live connection with a real test query
+- Built out full folder structure (`src/lib`, `src/pages`, `src/context`, `src/components`) matching `PROJECT-STRUCTURE.md`
+- Installed and configured React Router; implemented and verified 4-route skeleton (`/`, `/login`, `/signup`, `/dashboard`)
+- Scaffolded `AuthContext.jsx` (session detection, signUp/signIn/signOut methods); verified live via Dashboard test
+- Verified clean production build (`npm run build`)
+
+**Deliverables:** `docs/SETUP.md`, `docs/ENVIRONMENT.md`, `docs/DAY3-SUMMARY.md`
+
+**Issue encountered & resolved:** Initial `.env` used the Supabase dashboard URL instead of the project API URL, causing a failed connection test. Self-diagnosed and corrected; documented in `SETUP.md`.
+
+**Notes:** No scope changes. No changes required to the Implementation Blueprint — today's work matches its Day 3 foundation expectations exactly, with the Day 2 Supabase carry-over completed first. Deployment to Vercel (originally slated as part of the Day 2/3 carry-over) was not reached today — see Day 4 planning note below.
+
+**Carried forward:** First deploy to Vercel was not completed today. This is a small, mechanical task (no design work) and will be folded into Day 4 alongside the authentication flow build, so the app is verified live in production as soon as real auth features exist to test.
+
+---
+
+## Day 4 — (Not yet started)
+
+*To be filled in at the end of Day 4.*
