@@ -2,29 +2,40 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getApplications, deleteApplication } from '../lib/applications'
+import { getResumeVersions } from '../lib/resumeVersions'
 import ApplicationsList from '../components/ApplicationsList'
 
 function Dashboard() {
   const { user, loading, signOut } = useAuth()
   const navigate = useNavigate()
   const [applications, setApplications] = useState([])
+  const [resumeVersions, setResumeVersions] = useState([])
   const [loadingApps, setLoadingApps] = useState(true)
   const [fetchError, setFetchError] = useState('')
 
   useEffect(() => {
     if (user) {
-      loadApplications()
+      loadDashboardData()
     }
   }, [user])
 
-  async function loadApplications() {
+  async function loadDashboardData() {
     setLoadingApps(true)
-    const { data, error } = await getApplications()
-    if (error) {
-      setFetchError(error.message)
+    const [appsResult, versionsResult] = await Promise.all([
+      getApplications(),
+      getResumeVersions(),
+    ])
+
+    if (appsResult.error) {
+      setFetchError(appsResult.error.message)
     } else {
-      setApplications(data)
+      setApplications(appsResult.data)
     }
+
+    if (!versionsResult.error) {
+      setResumeVersions(versionsResult.data)
+    }
+
     setLoadingApps(false)
   }
 
@@ -51,14 +62,24 @@ function Dashboard() {
     <div style={{ padding: '40px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
         <h1>Dashboard</h1>
-        {user && (
-          <button
-            onClick={handleLogout}
-            style={{ padding: '8px 16px', background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', cursor: 'pointer' }}
-          >
-            Logout
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {user && (
+            <Link
+              to="/resume-versions"
+              style={{ padding: '8px 16px', background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', textDecoration: 'none', color: '#374151', fontSize: '14px' }}
+            >
+              Resume Versions
+            </Link>
+          )}
+          {user && (
+            <button
+              onClick={handleLogout}
+              style={{ padding: '8px 16px', background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', cursor: 'pointer' }}
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </div>
       <p style={{ color: '#6b7280', marginBottom: '24px' }}>
         {user ? `Logged in as: ${user.email}` : 'No user logged in yet'}
@@ -79,7 +100,11 @@ function Dashboard() {
           {loadingApps && <p>Loading applications...</p>}
           {fetchError && <p style={{ color: '#991b1b' }}>Error: {fetchError}</p>}
           {!loadingApps && !fetchError && (
-            <ApplicationsList applications={applications} onDelete={handleDelete} />
+            <ApplicationsList
+              applications={applications}
+              resumeVersions={resumeVersions}
+              onDelete={handleDelete}
+            />
           )}
         </>
       )}

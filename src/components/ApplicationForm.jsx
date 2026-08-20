@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getResumeVersions } from '../lib/resumeVersions'
 
 const STATUS_OPTIONS = ['Applied', 'Assessment', 'Interview', 'Rejected', 'Offer']
 
@@ -9,11 +10,27 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
     status: initialData?.status || 'Applied',
     date_applied: initialData?.date_applied || '',
     job_link: initialData?.job_link || '',
+    resume_version_id: initialData?.resume_version_id || '',
     interview_date: initialData?.interview_date || '',
     notes: initialData?.notes || '',
   })
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [resumeVersions, setResumeVersions] = useState([])
+  const [loadingVersions, setLoadingVersions] = useState(true)
+
+  useEffect(() => {
+    loadVersions()
+  }, [])
+
+  async function loadVersions() {
+    setLoadingVersions(true)
+    const { data, error } = await getResumeVersions()
+    if (!error) {
+      setResumeVersions(data)
+    }
+    setLoadingVersions(false)
+  }
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -33,6 +50,7 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
     const cleanData = {
       ...formData,
       job_link: formData.job_link.trim() || null,
+      resume_version_id: formData.resume_version_id || null,
       interview_date: formData.interview_date || null,
       notes: formData.notes.trim() || null,
     }
@@ -80,8 +98,17 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
       <input style={inputStyle} type="text" name="job_link" value={formData.job_link} onChange={handleChange} placeholder="https://..." />
 
       <label style={labelStyle}>Resume Version</label>
-      <select style={inputStyle} disabled>
-        <option>None (added on Day 5)</option>
+      <select
+        style={inputStyle}
+        name="resume_version_id"
+        value={formData.resume_version_id}
+        onChange={handleChange}
+        disabled={loadingVersions}
+      >
+        <option value="">None</option>
+        {resumeVersions.map((v) => (
+          <option key={v.id} value={v.id}>{v.name}</option>
+        ))}
       </select>
 
       <label style={labelStyle}>Interview Date (optional)</label>
