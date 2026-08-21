@@ -3,7 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getApplications, deleteApplication } from '../lib/applications'
 import { getResumeVersions } from '../lib/resumeVersions'
+import { computeStats } from '../lib/analytics'
 import ApplicationsList from '../components/ApplicationsList'
+import StatCard from '../components/StatCard'
+import StatusChart from '../components/StatusChart'
+import ConversionRates from '../components/ConversionRates'
 
 function Dashboard() {
   const { user, loading, signOut } = useAuth()
@@ -58,6 +62,8 @@ function Dashboard() {
 
   if (loading) return <p style={{ padding: '40px' }}>Loading...</p>
 
+  const stats = computeStats(applications)
+
   return (
     <div style={{ padding: '40px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -84,6 +90,25 @@ function Dashboard() {
       <p style={{ color: '#6b7280', marginBottom: '24px' }}>
         {user ? `Logged in as: ${user.email}` : 'No user logged in yet'}
       </p>
+
+      {user && !loadingApps && !fetchError && (
+        <>
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+            <StatCard label="Total Applications" value={stats.totalApplications} />
+            <StatCard label="Interviews" value={stats.totalInterviews} />
+            <StatCard label="Rejections" value={stats.totalRejections} />
+            <StatCard label="Offers" value={stats.totalOffers} />
+          </div>
+
+          <div style={{ display: 'flex', gap: '16px', marginBottom: '28px', flexWrap: 'wrap' }}>
+            <StatusChart statusCounts={stats.statusCounts} />
+            <ConversionRates
+              interviewConversionRate={stats.interviewConversionRate}
+              offerConversionRate={stats.offerConversionRate}
+            />
+          </div>
+        </>
+      )}
 
       {user && (
         <>
