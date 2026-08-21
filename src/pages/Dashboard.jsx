@@ -8,6 +8,7 @@ import ApplicationsList from '../components/ApplicationsList'
 import StatCard from '../components/StatCard'
 import StatusChart from '../components/StatusChart'
 import ConversionRates from '../components/ConversionRates'
+import AssistantPanel from '../components/AssistantPanel'
 
 function Dashboard() {
   const { user, loading, signOut } = useAuth()
@@ -25,6 +26,7 @@ function Dashboard() {
 
   async function loadDashboardData() {
     setLoadingApps(true)
+    setFetchError('')
     const [appsResult, versionsResult] = await Promise.all([
       getApplications(),
       getResumeVersions(),
@@ -60,14 +62,20 @@ function Dashboard() {
     navigate('/')
   }
 
-  if (loading) return <p style={{ padding: '40px' }}>Loading...</p>
+  if (loading) {
+    return (
+      <div style={{ padding: '60px', textAlign: 'center', color: '#6b7280' }}>
+        Loading your session...
+      </div>
+    )
+  }
 
   const stats = computeStats(applications)
 
   return (
     <div style={{ padding: '40px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <h1>Dashboard</h1>
+        <h1 style={{ margin: 0 }}>Dashboard</h1>
         <div style={{ display: 'flex', gap: '10px' }}>
           {user && (
             <Link
@@ -87,12 +95,44 @@ function Dashboard() {
           )}
         </div>
       </div>
-      <p style={{ color: '#6b7280', marginBottom: '24px' }}>
+      <p style={{ color: '#6b7280', marginBottom: '28px' }}>
         {user ? `Logged in as: ${user.email}` : 'No user logged in yet'}
       </p>
 
+      {user && loadingApps && (
+        <div style={{ padding: '40px', textAlign: 'center', color: '#6b7280', border: '1px dashed #d1d5db', borderRadius: '8px', marginBottom: '24px' }}>
+          Loading your applications...
+        </div>
+      )}
+
+      {user && fetchError && (
+        <div
+          style={{
+            background: '#fee2e2',
+            border: '1px solid #fca5a5',
+            color: '#991b1b',
+            padding: '16px',
+            borderRadius: '8px',
+            marginBottom: '24px',
+            fontSize: '14px',
+          }}
+        >
+          <strong>Couldn't load your data.</strong> {fetchError}
+          <div style={{ marginTop: '10px' }}>
+            <button
+              onClick={loadDashboardData}
+              style={{ padding: '6px 14px', background: '#991b1b', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+
       {user && !loadingApps && !fetchError && (
         <>
+          <AssistantPanel applications={applications} />
+
           <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
             <StatCard label="Total Applications" value={stats.totalApplications} />
             <StatCard label="Interviews" value={stats.totalInterviews} />
@@ -107,11 +147,7 @@ function Dashboard() {
               offerConversionRate={stats.offerConversionRate}
             />
           </div>
-        </>
-      )}
 
-      {user && (
-        <>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h2 style={{ fontSize: '18px', margin: 0 }}>Your Applications</h2>
             <Link
@@ -122,15 +158,11 @@ function Dashboard() {
             </Link>
           </div>
 
-          {loadingApps && <p>Loading applications...</p>}
-          {fetchError && <p style={{ color: '#991b1b' }}>Error: {fetchError}</p>}
-          {!loadingApps && !fetchError && (
-            <ApplicationsList
-              applications={applications}
-              resumeVersions={resumeVersions}
-              onDelete={handleDelete}
-            />
-          )}
+          <ApplicationsList
+            applications={applications}
+            resumeVersions={resumeVersions}
+            onDelete={handleDelete}
+          />
         </>
       )}
     </div>

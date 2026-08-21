@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
+import { getSuggestedAction } from '../lib/assistant'
 
 const FILTER_OPTIONS = ['All', 'Applied', 'Assessment', 'Interview', 'Rejected', 'Offer']
 
@@ -49,6 +50,7 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {filtered.map((app) => {
             const resumeName = getResumeVersionName(app.resume_version_id)
+            const suggestedAction = getSuggestedAction(app)
             return (
               <div
                 key={app.id}
@@ -71,6 +73,20 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
                     Applied: {app.date_applied}
                     {app.interview_date ? ` • Interview: ${app.interview_date}` : ''}
                     {resumeName ? ` • Resume: ${resumeName}` : ''}
+                  </div>
+                  <div style={{ marginTop: '6px' }}>
+                    <span
+                      style={{
+                        fontSize: '11px',
+                        color: '#4338ca',
+                        background: '#eef2ff',
+                        padding: '3px 8px',
+                        borderRadius: '4px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      Next: {suggestedAction}
+                    </span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
