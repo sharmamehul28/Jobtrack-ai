@@ -39,7 +39,7 @@ Smart Career Assistant fully built and verified in production. Per PRD, MVP beca
 
 **Deliverables:** `docs/DAY8-SUMMARY.md`
 
-**Known gap (noted, not hidden):** dark mode not yet re-verified on production specifically for a *populated* dashboard (Assistant Panel, populated chart, application rows) — verified locally only. Flagged for a follow-up check before Day 10 launch, given this project's history of local/production discrepancies.
+**Gap closed (post-Day 8, before Day 9 start):** dark mode re-verified on production with a populated dashboard — Assistant Panel (real follow-up/attention flags, interview prep card), all confirmed legible and correctly styled at mobile width, on the live URL. Zero known gaps remain from Day 8.
 
 **Notes:** Scope stuck to original Blueprint order despite an initial conflicting Day 8 prompt (QA-focused) — confirmed with the user to keep Day 8 = responsive/dark mode, Day 9 = QA, Day 10 = launch, as originally planned. No PRD conflicts. No Blueprint amendments needed.
 
@@ -47,4 +47,4 @@ Smart Career Assistant fully built and verified in production. Per PRD, MVP beca
 
 ## Day 9 — (Not yet started)
 
-*To be filled in at the end of Day 9. Planned: senior-engineer QA pass — edge cases, error handling, form validation, accessibility, performance, security review, console warnings. No new features. Recommended first task: production dark-mode screenshot on a populated dashboard, closing yesterday's noted gap.*
+*To be filled in at the end of Day 9. Planned: senior-engineer QA pass — edge cases, error handling, form validation, accessibility, performance, security review, console warnings. No new features. Starting with zero carried-over gaps from Day 8.*
