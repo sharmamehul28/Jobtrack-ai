@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard'
 import AddApplication from './pages/AddApplication'
 import EditApplication from './pages/EditApplication'
 import ResumeVersions from './pages/ResumeVersions'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/applications/new" element={<ProtectedRoute><AddApplication /></ProtectedRoute>} />
                 <Route path="/applications/:id/edit" element={<ProtectedRoute><EditApplication /></ProtectedRoute>} />
                 <Route path="/resume-versions" element={<ProtectedRoute><ResumeVersions /></ProtectedRoute>} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
             <Footer />

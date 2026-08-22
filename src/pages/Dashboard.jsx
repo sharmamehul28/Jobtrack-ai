@@ -17,6 +17,7 @@ function Dashboard() {
   const [resumeVersions, setResumeVersions] = useState([])
   const [loadingApps, setLoadingApps] = useState(true)
   const [fetchError, setFetchError] = useState('')
+  const [actionError, setActionError] = useState('')
 
   useEffect(() => {
     if (user) {
@@ -33,7 +34,8 @@ function Dashboard() {
     ])
 
     if (appsResult.error) {
-      setFetchError(appsResult.error.message)
+      console.error('Load applications failed:', appsResult.error)
+      setFetchError('Could not load your applications. Please try again.')
     } else {
       setApplications(appsResult.data)
     }
@@ -49,9 +51,11 @@ function Dashboard() {
     const confirmed = window.confirm('Delete this application? This cannot be undone.')
     if (!confirmed) return
 
+    setActionError('')
     const { error } = await deleteApplication(id)
     if (error) {
-      alert('Error deleting: ' + error.message)
+      console.error('Delete application failed:', error)
+      setActionError('Something went wrong deleting this application. Please try again.')
       return
     }
     setApplications((prev) => prev.filter((app) => app.id !== id))
@@ -99,6 +103,12 @@ function Dashboard() {
         {user ? `Logged in as: ${user.email}` : 'No user logged in yet'}
       </p>
 
+      {user && actionError && (
+        <div role="alert" style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
+          {actionError}
+        </div>
+      )}
+
       {user && loadingApps && (
         <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', border: '1px dashed var(--border-color)', borderRadius: '8px', marginBottom: '24px' }}>
           Loading your applications...
@@ -107,6 +117,7 @@ function Dashboard() {
 
       {user && fetchError && (
         <div
+          role="alert"
           style={{
             background: 'var(--bg-card)',
             border: '1px solid #fca5a5',

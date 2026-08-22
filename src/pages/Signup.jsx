@@ -28,7 +28,12 @@ function Signup() {
     setSubmitting(false)
 
     if (signUpError) {
-      setError(signUpError.message)
+      console.error('Signup failed:', signUpError)
+      if (signUpError.message && signUpError.message.toLowerCase().includes('already registered')) {
+        setError('An account with this email already exists.')
+      } else {
+        setError('Something went wrong creating your account. Please try again.')
+      }
       return
     }
 
@@ -47,23 +52,31 @@ function Signup() {
       <h1 style={{ fontSize: '22px', marginBottom: '20px', color: 'var(--text-primary)' }}>Sign Up</h1>
 
       {error && (
-        <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
+        <div role="alert" style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Email</label>
+        <label htmlFor="signup-email" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+          Email
+        </label>
         <input
+          id="signup-email"
           type="email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', borderRadius: '6px', fontSize: '14px', marginTop: '4px', marginBottom: '16px', boxSizing: 'border-box' }}
         />
 
-        <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Password</label>
+        <label htmlFor="signup-password" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+          Password
+        </label>
         <input
+          id="signup-password"
           type="password"
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', borderRadius: '6px', fontSize: '14px', marginTop: '4px', marginBottom: '20px', boxSizing: 'border-box' }}

@@ -75,32 +75,33 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '500px' }}>
       {error && (
-        <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
+        <div role="alert" style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
           {error}
         </div>
       )}
 
-      <label style={labelStyle}>Company Name *</label>
-      <input style={inputStyle} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
+      <label htmlFor="app-company-name" style={labelStyle}>Company Name *</label>
+      <input id="app-company-name" style={inputStyle} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
 
-      <label style={labelStyle}>Job Title *</label>
-      <input style={inputStyle} type="text" name="job_title" value={formData.job_title} onChange={handleChange} />
+      <label htmlFor="app-job-title" style={labelStyle}>Job Title *</label>
+      <input id="app-job-title" style={inputStyle} type="text" name="job_title" value={formData.job_title} onChange={handleChange} />
 
-      <label style={labelStyle}>Status</label>
-      <select style={inputStyle} name="status" value={formData.status} onChange={handleChange}>
+      <label htmlFor="app-status" style={labelStyle}>Status</label>
+      <select id="app-status" style={inputStyle} name="status" value={formData.status} onChange={handleChange}>
         {STATUS_OPTIONS.map((s) => (
           <option key={s} value={s}>{s}</option>
         ))}
       </select>
 
-      <label style={labelStyle}>Date Applied *</label>
-      <input style={inputStyle} type="date" name="date_applied" value={formData.date_applied} onChange={handleChange} />
+      <label htmlFor="app-date-applied" style={labelStyle}>Date Applied *</label>
+      <input id="app-date-applied" style={inputStyle} type="date" name="date_applied" value={formData.date_applied} onChange={handleChange} />
 
-      <label style={labelStyle}>Job Link</label>
-      <input style={inputStyle} type="text" name="job_link" value={formData.job_link} onChange={handleChange} placeholder="https://..." />
+      <label htmlFor="app-job-link" style={labelStyle}>Job Link</label>
+      <input id="app-job-link" style={inputStyle} type="text" name="job_link" value={formData.job_link} onChange={handleChange} placeholder="https://..." />
 
-      <label style={labelStyle}>Resume Version</label>
+      <label htmlFor="app-resume-version" style={labelStyle}>Resume Version</label>
       <select
+        id="app-resume-version"
         style={inputStyle}
         name="resume_version_id"
         value={formData.resume_version_id}
@@ -113,11 +114,11 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
         ))}
       </select>
 
-      <label style={labelStyle}>Interview Date (optional)</label>
-      <input style={inputStyle} type="date" name="interview_date" value={formData.interview_date} onChange={handleChange} />
+      <label htmlFor="app-interview-date" style={labelStyle}>Interview Date (optional)</label>
+      <input id="app-interview-date" style={inputStyle} type="date" name="interview_date" value={formData.interview_date} onChange={handleChange} />
 
-      <label style={labelStyle}>Notes</label>
-      <textarea style={{ ...inputStyle, minHeight: '80px' }} name="notes" value={formData.notes} onChange={handleChange} />
+      <label htmlFor="app-notes" style={labelStyle}>Notes</label>
+      <textarea id="app-notes" style={{ ...inputStyle, minHeight: '80px' }} name="notes" value={formData.notes} onChange={handleChange} />
 
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         <button type="submit" disabled={submitting} style={{ padding: '10px 20px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>

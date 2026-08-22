@@ -10,6 +10,7 @@ function EditApplication() {
   const [application, setApplication] = useState(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     loadApplication()
@@ -32,6 +33,7 @@ function EditApplication() {
   }
 
   async function handleSubmit(formData) {
+    setError('')
     const previousStatus = application.status
     const updatedFields = { ...formData }
 
@@ -39,9 +41,10 @@ function EditApplication() {
       updatedFields.status_updated_at = new Date().toISOString()
     }
 
-    const { error } = await updateApplication(id, updatedFields)
-    if (error) {
-      alert('Error updating application: ' + error.message)
+    const { error: updateError } = await updateApplication(id, updatedFields)
+    if (updateError) {
+      console.error('Update application failed:', updateError)
+      setError('Something went wrong saving your changes. Please try again.')
       return
     }
     navigate('/dashboard')
@@ -65,6 +68,11 @@ function EditApplication() {
   return (
     <div className="page-container">
       <h1 style={{ color: 'var(--text-primary)' }}>Edit Application</h1>
+      {error && (
+        <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px', maxWidth: '500px' }}>
+          {error}
+        </div>
+      )}
       <ApplicationForm
         initialData={application}
         onSubmit={handleSubmit}

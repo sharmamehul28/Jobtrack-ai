@@ -27,7 +27,8 @@ function ResumeVersions() {
     setLoading(true)
     const { data, error } = await getResumeVersions()
     if (error) {
-      setError(error.message)
+      console.error('Load resume versions failed:', error)
+      setError('Could not load your resume versions. Please refresh the page.')
     } else {
       setVersions(data)
     }
@@ -45,7 +46,8 @@ function ResumeVersions() {
     const { error } = await addResumeVersion(newName.trim(), user.id)
     setAdding(false)
     if (error) {
-      setError(error.message)
+      console.error('Add resume version failed:', error)
+      setError('Something went wrong saving this resume version. Please try again.')
       return
     }
     setNewName('')
@@ -64,7 +66,8 @@ function ResumeVersions() {
     }
     const { error } = await updateResumeVersion(id, editingName.trim())
     if (error) {
-      setError(error.message)
+      console.error('Update resume version failed:', error)
+      setError('Something went wrong saving your changes. Please try again.')
       return
     }
     setEditingId(null)
@@ -79,7 +82,8 @@ function ResumeVersions() {
     if (!confirmed) return
     const { error } = await deleteResumeVersion(id)
     if (error) {
-      alert('Error deleting: ' + error.message)
+      console.error('Delete resume version failed:', error)
+      setError('Something went wrong deleting this resume version. Please try again.')
       return
     }
     loadVersions()
@@ -131,13 +135,17 @@ function ResumeVersions() {
       </div>
 
       {error && (
-        <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
+        <div role="alert" style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
           {error}
         </div>
       )}
 
       <form onSubmit={handleAdd} style={{ display: 'flex', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
+        <label htmlFor="new-version-name" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+          Resume version name
+        </label>
         <input
+          id="new-version-name"
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
@@ -172,7 +180,11 @@ function ResumeVersions() {
             >
               {editingId === v.id ? (
                 <>
+                  <label htmlFor={`edit-version-${v.id}`} style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+                    Edit resume version name
+                  </label>
                   <input
+                    id={`edit-version-${v.id}`}
                     type="text"
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
@@ -191,10 +203,10 @@ function ResumeVersions() {
                 <>
                   <span style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{v.name}</span>
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button onClick={() => startEdit(v)} style={btnSecondary}>
+                    <button onClick={() => startEdit(v)} style={btnSecondary} aria-label={`Edit ${v.name}`}>
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(v.id)} style={btnDanger}>
+                    <button onClick={() => handleDelete(v.id)} style={btnDanger} aria-label={`Delete ${v.name}`}>
                       Delete
                     </button>
                   </div>

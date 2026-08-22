@@ -5,14 +5,18 @@ import { getSuggestedAction } from '../lib/assistant'
 
 const FILTER_OPTIONS = ['All', 'Applied', 'Assessment', 'Interview', 'Rejected', 'Offer']
 
-function ApplicationsList({ applications, resumeVersions, onDelete }) {
+function ApplicationsList({ applications, onDelete, resumeVersions }) {
   const [filter, setFilter] = useState('All')
 
   const filtered =
-    filter === 'All' ? applications : applications.filter((app) => app.status === filter)
+    filter === 'All'
+      ? applications
+      : applications.filter((app) => app.status === filter)
 
   function getResumeVersionName(id) {
-    if (!id) return null
+    if (!id) {
+      return null
+    }
     const match = resumeVersions.find((v) => v.id === id)
     return match ? match.name : null
   }
@@ -20,24 +24,29 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-        {FILTER_OPTIONS.map((opt) => (
-          <button
-            key={opt}
-            onClick={() => setFilter(opt)}
-            style={{
-              padding: '6px 14px',
-              borderRadius: '9999px',
-              border: '1px solid var(--border-color)',
-              background: filter === opt ? 'var(--accent)' : 'var(--bg-card)',
-              color: filter === opt ? 'white' : 'var(--text-primary)',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-            }}
-          >
-            {opt}
-          </button>
-        ))}
+        {FILTER_OPTIONS.map((opt) => {
+          const isActive = filter === opt
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => setFilter(opt)}
+              aria-pressed={isActive}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '9999px',
+                border: '1px solid var(--border-color)',
+                background: isActive ? 'var(--accent)' : 'var(--bg-card)',
+                color: isActive ? 'white' : 'var(--text-primary)',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 600,
+              }}
+            >
+              {opt}
+            </button>
+          )
+        })}
       </div>
 
       {filtered.length === 0 ? (
@@ -51,6 +60,7 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
           {filtered.map((app) => {
             const resumeName = getResumeVersionName(app.resume_version_id)
             const suggestedAction = getSuggestedAction(app)
+
             return (
               <div
                 key={app.id}
@@ -66,15 +76,46 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
                   gap: '10px',
                 }}
               >
-                <div>
+                <div style={{ flex: 1, minWidth: '200px' }}>
                   <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--text-primary)' }}>
                     {app.company_name} — {app.job_title}
                   </div>
+
                   <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                    Applied: {app.date_applied}
-                    {app.interview_date ? ` • Interview: ${app.interview_date}` : ''}
-                    {resumeName ? ` • Resume: ${resumeName}` : ''}
+                    <span>Applied: {app.date_applied}</span>
+                    {app.interview_date && <span> • Interview: {app.interview_date}</span>}
+                    {resumeName && <span> • Resume: {resumeName}</span>}
                   </div>
+
+                  {app.job_link && (
+                    <div style={{ fontSize: '13px', marginTop: '4px' }}>
+                      <a
+                        href={app.job_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--accent)' }}
+                      >
+                        View listing
+                      </a>
+                    </div>
+                  )}
+
+                  {app.notes && (
+                    <div
+                      style={{
+                        fontSize: '12px',
+                        color: 'var(--text-secondary)',
+                        marginTop: '6px',
+                        background: 'var(--bg-subtle)',
+                        padding: '6px 10px',
+                        borderRadius: '6px',
+                        maxWidth: '500px',
+                      }}
+                    >
+                      {app.notes}
+                    </div>
+                  )}
+
                   <div style={{ marginTop: '6px' }}>
                     <span
                       style={{
@@ -90,17 +131,37 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
                     </span>
                   </div>
                 </div>
+
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                   <StatusBadge status={app.status} />
+
                   <Link
                     to={`/applications/${app.id}/edit`}
-                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid var(--border-color)', borderRadius: '6px', textDecoration: 'none', color: 'var(--text-primary)' }}
+                    style={{
+                      fontSize: '13px',
+                      padding: '6px 12px',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      color: 'var(--text-primary)',
+                    }}
                   >
                     Edit
                   </Link>
+
                   <button
+                    type="button"
                     onClick={() => onDelete(app.id)}
-                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid #fca5a5', borderRadius: '6px', background: 'var(--bg-card)', color: '#991b1b', cursor: 'pointer' }}
+                    aria-label={`Delete application to ${app.company_name}`}
+                    style={{
+                      fontSize: '13px',
+                      padding: '6px 12px',
+                      border: '1px solid #fca5a5',
+                      borderRadius: '6px',
+                      background: 'var(--bg-card)',
+                      color: '#991b1b',
+                      cursor: 'pointer',
+                    }}
                   >
                     Delete
                   </button>

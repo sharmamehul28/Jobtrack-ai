@@ -24,7 +24,8 @@ function Login() {
     setSubmitting(false)
 
     if (signInError) {
-      setError(signInError.message)
+      console.error('Login failed:', signInError)
+      setError('Incorrect email or password.')
       return
     }
 
@@ -41,23 +42,31 @@ function Login() {
       <h1 style={{ fontSize: '22px', marginBottom: '20px', color: 'var(--text-primary)' }}>Log In</h1>
 
       {error && (
-        <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
+        <div role="alert" style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Email</label>
+        <label htmlFor="login-email" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+          Email
+        </label>
         <input
+          id="login-email"
           type="email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', borderRadius: '6px', fontSize: '14px', marginTop: '4px', marginBottom: '16px', boxSizing: 'border-box' }}
         />
 
-        <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Password</label>
+        <label htmlFor="login-password" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+          Password
+        </label>
         <input
+          id="login-password"
           type="password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', borderRadius: '6px', fontSize: '14px', marginTop: '4px', marginBottom: '20px', boxSizing: 'border-box' }}
