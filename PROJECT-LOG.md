@@ -20,31 +20,36 @@ Vercel deployed; full auth built and verified; full Application CRUD built and v
 ProtectedRoute + Vercel routing carry-overs closed. Resume Version Manager full CRUD + linking.
 
 ## Day 6 — Analytics Dashboard + Footer + Production Verification
-Analytics Dashboard shipped. Footer added. Full regression pass. Production deployment fully verified end-to-end.
+Analytics Dashboard shipped. Footer added. Production deployment fully verified end-to-end.
 
 ## Day 7 — Smart Career Assistant (MVP Complete)
-Smart Career Assistant fully built and verified in production. Per PRD, MVP became feature-complete today.
-
----
+Smart Career Assistant fully built and verified in production. MVP became feature-complete.
 
 ## Day 8 — Responsive Design + Dark Mode
-
-**Completed:**
-- `ThemeContext.jsx` + CSS custom properties (`index.css`) — full light/dark theme system, persisted via localStorage
-- `ThemeToggle.jsx` — global floating toggle
-- Every page and component (Dashboard, Landing, Login, Signup, Resume Versions, Add/Edit Application, all shared components) converted to use theme variables and responsive classes
-- Full responsive breakpoints applied — stat cards, header rows, forms all stack correctly at mobile width
-- Full 9-point regression pass — no regressions
-- **Production verified:** dark mode + mobile layout confirmed live for dashboard empty state and stat cards
-
-**Deliverables:** `docs/DAY8-SUMMARY.md`
-
-**Gap closed (post-Day 8, before Day 9 start):** dark mode re-verified on production with a populated dashboard — Assistant Panel (real follow-up/attention flags, interview prep card), all confirmed legible and correctly styled at mobile width, on the live URL. Zero known gaps remain from Day 8.
-
-**Notes:** Scope stuck to original Blueprint order despite an initial conflicting Day 8 prompt (QA-focused) — confirmed with the user to keep Day 8 = responsive/dark mode, Day 9 = QA, Day 10 = launch, as originally planned. No PRD conflicts. No Blueprint amendments needed.
+Full theme system + responsive pass across every page. Production-verified, including a follow-up populated-dashboard check that closed the day's one noted gap.
 
 ---
 
-## Day 9 — (Not yet started)
+## Day 9 — Testing, Debugging & Production Optimization
 
-*To be filled in at the end of Day 9. Planned: senior-engineer QA pass — edge cases, error handling, form validation, accessibility, performance, security review, console warnings. No new features. Starting with zero carried-over gaps from Day 8.*
+**Completed:**
+- Full senior-engineer codebase review — 10 findings identified across bugs, accessibility, security, and polish
+- **Bugs fixed:** `job_link` and `notes` now displayed on application rows (were captured but never shown); 404 page added for undefined routes
+- **Accessibility:** all form labels linked to inputs via `htmlFor`/`id` across Signup, Login, ApplicationForm, ResumeVersions; `aria-label`/`aria-pressed` added to ambiguous buttons
+- **Security/UX:** raw Supabase error messages replaced with clean user-facing text; real errors now logged to console only; `alert()` popups replaced with inline error states on Add/Edit Application
+- **Polish:** page title and meta description fixed (was showing Vite's default)
+- **Deliberately deferred:** inline style deduplication — documented as a conscious trade-off given proximity to launch, not a gap
+- Full 16-point regression pass — all passed
+- **Production deployment verified**, including a specific 404-page screenshot on the live URL, given this project's history with routing issues
+
+**Deliverables:** `docs/DAY9-SUMMARY.md`
+
+**Debugging note:** a JSX parse error in `ApplicationsList.jsx` resurfaced across two fix attempts at different line numbers, indicating symptom-patching rather than root-cause fixes. Resolved by rewriting the file from scratch and verifying it in an isolated, actually-compiled test environment before presenting — a more rigorous verification standard now applied going forward.
+
+**Notes:** No PRD conflicts. No Blueprint amendments needed. Today's work matches Blueprint Day 9 exactly — hardening and QA only, no new features.
+
+---
+
+## Day 10 — (Not yet started)
+
+*To be filled in at the end of Day 10. Planned: final polish, README (setup instructions, screenshots, live link), demo script, cross-browser/device spot-check, final cleanup pass, and launch.*
