@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   getFollowUpFlags,
   getNeedsAttention,
@@ -22,17 +21,17 @@ function AssistantPanel({ applications }) {
   return (
     <div
       style={{
-        border: '1px solid #e0e7ff',
-        background: '#f5f7ff',
+        border: '1px solid var(--border-color)',
+        background: 'var(--bg-highlight)',
         borderRadius: '10px',
         padding: '20px',
         marginBottom: '24px',
       }}
     >
-      <h2 style={{ fontSize: '15px', margin: '0 0 6px 0', color: '#1e2761' }}>
+      <h2 style={{ fontSize: '15px', margin: '0 0 6px 0', color: 'var(--accent)' }}>
         Smart Career Assistant — This Week
       </h2>
-      <p style={{ fontSize: '13px', color: '#374151', margin: '0 0 16px 0' }}>
+      <p style={{ fontSize: '13px', color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
         {summary.applicationsThisWeek} application{summary.applicationsThisWeek !== 1 ? 's' : ''} submitted
         {' • '}
         {summary.interviewsThisWeek} interview{summary.interviewsThisWeek !== 1 ? 's' : ''} scheduled
@@ -83,17 +82,17 @@ function AssistantPanel({ applications }) {
             <div
               key={`prep-${app.id}`}
               style={{
-                background: 'white',
-                border: '1px solid #e0e7ff',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
                 borderRadius: '8px',
                 padding: '12px 16px',
                 marginBottom: '8px',
               }}
             >
-              <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
                 Upcoming Interview: {app.company_name} ({app.interview_date})
               </div>
-              <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: '#374151' }}>
+              <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: 'var(--text-secondary)' }}>
                 {getInterviewPrepTips(app).map((tip, i) => (
                   <li key={i}>{tip}</li>
                 ))}

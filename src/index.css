@@ -1,1 +1,81 @@
 @import "tailwindcss";
+
+:root[data-theme="light"] {
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --bg-subtle: #f9fafb;
+  --bg-highlight: #f5f7ff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --accent: #1e2761;
+  --accent-hover: #2a3577;
+  --input-bg: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  --bg-page: #0f1117;
+  --bg-card: #1a1d29;
+  --bg-subtle: #20232f;
+  --bg-highlight: #1e2438;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --border-color: #2d3142;
+  --accent: #6b7fd7;
+  --accent-hover: #7f91e0;
+  --input-bg: #14161f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  margin: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Responsive container padding */
+.page-container {
+  padding: 40px;
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 16px;
+  }
+}
+
+/* Responsive dashboard grid rows */
+.dashboard-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .dashboard-row {
+    flex-direction: column;
+  }
+  .dashboard-row > * {
+    width: 100%;
+  }
+}
+
+/* Responsive header rows (title + action buttons) */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

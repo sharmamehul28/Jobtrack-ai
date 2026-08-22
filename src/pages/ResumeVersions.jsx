@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import {
   getResumeVersions,
@@ -87,13 +87,15 @@ function ResumeVersions() {
 
   const inputStyle = {
     padding: '8px 12px',
-    border: '1px solid #d1d5db',
+    border: '1px solid var(--border-color)',
+    background: 'var(--input-bg)',
+    color: 'var(--text-primary)',
     borderRadius: '6px',
     fontSize: '14px',
   }
   const btnPrimary = {
     padding: '8px 16px',
-    background: '#1e2761',
+    background: 'var(--accent)',
     color: 'white',
     border: 'none',
     borderRadius: '6px',
@@ -102,16 +104,16 @@ function ResumeVersions() {
   }
   const btnSecondary = {
     padding: '6px 12px',
-    background: 'white',
-    color: '#374151',
-    border: '1px solid #d1d5db',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
+    border: '1px solid var(--border-color)',
     borderRadius: '6px',
     cursor: 'pointer',
     fontSize: '13px',
   }
   const btnDanger = {
     padding: '6px 12px',
-    background: 'white',
+    background: 'var(--bg-card)',
     color: '#991b1b',
     border: '1px solid #fca5a5',
     borderRadius: '6px',
@@ -120,9 +122,9 @@ function ResumeVersions() {
   }
 
   return (
-    <div style={{ padding: '40px', maxWidth: '700px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h1>Resume Versions</h1>
+    <div className="page-container" style={{ maxWidth: '700px', margin: '0 auto' }}>
+      <div className="header-row" style={{ marginBottom: '24px' }}>
+        <h1 style={{ color: 'var(--text-primary)' }}>Resume Versions</h1>
         <button onClick={() => navigate('/dashboard')} style={btnSecondary}>
           ← Back to Dashboard
         </button>
@@ -134,13 +136,13 @@ function ResumeVersions() {
         </div>
       )}
 
-      <form onSubmit={handleAdd} style={{ display: 'flex', gap: '10px', marginBottom: '28px' }}>
+      <form onSubmit={handleAdd} style={{ display: 'flex', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
         <input
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           placeholder="e.g. Software Engineer Resume v1"
-          style={{ ...inputStyle, flex: 1 }}
+          style={{ ...inputStyle, flex: 1, minWidth: '200px' }}
         />
         <button type="submit" disabled={adding} style={btnPrimary}>
           {adding ? 'Adding...' : '+ Add Version'}
@@ -148,21 +150,24 @@ function ResumeVersions() {
       </form>
 
       {loading ? (
-        <p>Loading...</p>
+        <p style={{ color: 'var(--text-secondary)' }}>Loading...</p>
       ) : versions.length === 0 ? (
-        <p style={{ color: '#6b7280' }}>No resume versions yet — add your first one above.</p>
+        <p style={{ color: 'var(--text-secondary)' }}>No resume versions yet — add your first one above.</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {versions.map((v) => (
             <div
               key={v.id}
               style={{
-                border: '1px solid #e5e7eb',
+                border: '1px solid var(--border-color)',
+                background: 'var(--bg-card)',
                 borderRadius: '8px',
                 padding: '12px 16px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '10px',
               }}
             >
               {editingId === v.id ? (
@@ -171,7 +176,7 @@ function ResumeVersions() {
                     type="text"
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
-                    style={{ ...inputStyle, flex: 1, marginRight: '10px' }}
+                    style={{ ...inputStyle, flex: 1, minWidth: '160px' }}
                   />
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button onClick={() => handleSaveEdit(v.id)} style={btnPrimary}>
@@ -184,7 +189,7 @@ function ResumeVersions() {
                 </>
               ) : (
                 <>
-                  <span style={{ fontSize: '15px' }}>{v.name}</span>
+                  <span style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{v.name}</span>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button onClick={() => startEdit(v)} style={btnSecondary}>
                       Edit

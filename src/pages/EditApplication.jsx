@@ -35,7 +35,6 @@ function EditApplication() {
     const previousStatus = application.status
     const updatedFields = { ...formData }
 
-    // Per API.md: status_updated_at must be refreshed whenever status changes
     if (formData.status !== previousStatus) {
       updatedFields.status_updated_at = new Date().toISOString()
     }
@@ -48,19 +47,24 @@ function EditApplication() {
     navigate('/dashboard')
   }
 
-  if (loading) return <p style={{ padding: '40px' }}>Loading...</p>
+  if (loading) return <div className="page-container" style={{ color: 'var(--text-secondary)' }}>Loading...</div>
   if (notFound) {
     return (
-      <div style={{ padding: '40px' }}>
-        <p>Application not found, or you don't have access to it.</p>
-        <button onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
+      <div className="page-container">
+        <p style={{ color: 'var(--text-primary)' }}>Application not found, or you don't have access to it.</p>
+        <button
+          onClick={() => navigate('/dashboard')}
+          style={{ padding: '8px 16px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
+        >
+          Back to Dashboard
+        </button>
       </div>
     )
   }
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h1>Edit Application</h1>
+    <div className="page-container">
+      <h1 style={{ color: 'var(--text-primary)' }}>Edit Application</h1>
       <ApplicationForm
         initialData={application}
         onSubmit={handleSubmit}

@@ -15,16 +15,16 @@ function StatusChart({ statusCounts }) {
 
   if (data.length === 0) {
     return (
-      <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '20px', flex: 1, minWidth: '280px' }}>
-        <h3 style={{ fontSize: '14px', margin: '0 0 12px 0' }}>Status Breakdown</h3>
-        <p style={{ color: '#6b7280', fontSize: '13px' }}>No data yet — add an application to see this chart.</p>
+      <div style={{ border: '1px solid var(--border-color)', background: 'var(--bg-card)', borderRadius: '8px', padding: '20px', flex: 1, minWidth: '280px' }}>
+        <h3 style={{ fontSize: '14px', margin: '0 0 12px 0', color: 'var(--text-primary)' }}>Status Breakdown</h3>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>No data yet — add an application to see this chart.</p>
       </div>
     )
   }
 
   return (
-    <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '20px', flex: 1, minWidth: '280px' }}>
-      <h3 style={{ fontSize: '14px', margin: '0 0 12px 0' }}>Status Breakdown</h3>
+    <div style={{ border: '1px solid var(--border-color)', background: 'var(--bg-card)', borderRadius: '8px', padding: '20px', flex: 1, minWidth: '280px' }}>
+      <h3 style={{ fontSize: '14px', margin: '0 0 12px 0', color: 'var(--text-primary)' }}>Status Breakdown</h3>
       <ResponsiveContainer width="100%" height={220}>
         <PieChart>
           <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label>

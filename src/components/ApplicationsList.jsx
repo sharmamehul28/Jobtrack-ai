@@ -27,9 +27,9 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
             style={{
               padding: '6px 14px',
               borderRadius: '9999px',
-              border: '1px solid #d1d5db',
-              background: filter === opt ? '#1e2761' : 'white',
-              color: filter === opt ? 'white' : '#374151',
+              border: '1px solid var(--border-color)',
+              background: filter === opt ? 'var(--accent)' : 'var(--bg-card)',
+              color: filter === opt ? 'white' : 'var(--text-primary)',
               cursor: 'pointer',
               fontSize: '13px',
               fontWeight: 600,
@@ -41,7 +41,7 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
       </div>
 
       {filtered.length === 0 ? (
-        <p style={{ color: '#6b7280', fontSize: '14px' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
           {applications.length === 0
             ? 'No applications yet — add your first one!'
             : 'No applications match this filter.'}
@@ -55,7 +55,8 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
               <div
                 key={app.id}
                 style={{
-                  border: '1px solid #e5e7eb',
+                  border: '1px solid var(--border-color)',
+                  background: 'var(--bg-card)',
                   borderRadius: '8px',
                   padding: '14px 16px',
                   display: 'flex',
@@ -66,10 +67,10 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
                 }}
               >
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: '15px' }}>
+                  <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--text-primary)' }}>
                     {app.company_name} — {app.job_title}
                   </div>
-                  <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '4px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
                     Applied: {app.date_applied}
                     {app.interview_date ? ` • Interview: ${app.interview_date}` : ''}
                     {resumeName ? ` • Resume: ${resumeName}` : ''}
@@ -89,17 +90,17 @@ function ApplicationsList({ applications, resumeVersions, onDelete }) {
                     </span>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                   <StatusBadge status={app.status} />
                   <Link
                     to={`/applications/${app.id}/edit`}
-                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid #d1d5db', borderRadius: '6px', textDecoration: 'none', color: '#374151' }}
+                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid var(--border-color)', borderRadius: '6px', textDecoration: 'none', color: 'var(--text-primary)' }}
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => onDelete(app.id)}
-                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid #fca5a5', borderRadius: '6px', background: 'white', color: '#991b1b', cursor: 'pointer' }}
+                    style={{ fontSize: '13px', padding: '6px 12px', border: '1px solid #fca5a5', borderRadius: '6px', background: 'var(--bg-card)', color: '#991b1b', cursor: 'pointer' }}
                   >
                     Delete
                   </button>

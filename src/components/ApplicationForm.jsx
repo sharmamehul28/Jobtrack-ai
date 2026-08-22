@@ -61,14 +61,16 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
   const inputStyle = {
     width: '100%',
     padding: '8px 12px',
-    border: '1px solid #d1d5db',
+    border: '1px solid var(--border-color)',
+    background: 'var(--input-bg)',
+    color: 'var(--text-primary)',
     borderRadius: '6px',
     fontSize: '14px',
     marginTop: '4px',
     marginBottom: '16px',
     boxSizing: 'border-box',
   }
-  const labelStyle = { fontSize: '13px', fontWeight: 600, color: '#374151' }
+  const labelStyle = { fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '500px' }}>
@@ -117,11 +119,11 @@ function ApplicationForm({ initialData, onSubmit, onCancel, submitLabel = 'Save'
       <label style={labelStyle}>Notes</label>
       <textarea style={{ ...inputStyle, minHeight: '80px' }} name="notes" value={formData.notes} onChange={handleChange} />
 
-      <div style={{ display: 'flex', gap: '10px' }}>
-        <button type="submit" disabled={submitting} style={{ padding: '10px 20px', background: '#1e2761', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>
+      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <button type="submit" disabled={submitting} style={{ padding: '10px 20px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>
           {submitting ? 'Saving...' : submitLabel}
         </button>
-        <button type="button" onClick={onCancel} style={{ padding: '10px 20px', background: 'white', color: '#374151', border: '1px solid #d1d5db', borderRadius: '6px', cursor: 'pointer' }}>
+        <button type="button" onClick={onCancel} style={{ padding: '10px 20px', background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer' }}>
           Cancel
         </button>
       </div>

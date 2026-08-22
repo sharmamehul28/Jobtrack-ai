@@ -64,7 +64,7 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div style={{ padding: '60px', textAlign: 'center', color: '#6b7280' }}>
+      <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-secondary)' }}>
         Loading your session...
       </div>
     )
@@ -73,14 +73,14 @@ function Dashboard() {
   const stats = computeStats(applications)
 
   return (
-    <div style={{ padding: '40px', maxWidth: '900px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <h1 style={{ margin: 0 }}>Dashboard</h1>
-        <div style={{ display: 'flex', gap: '10px' }}>
+    <div className="page-container" style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <div className="header-row" style={{ marginBottom: '8px' }}>
+        <h1 style={{ margin: 0, color: 'var(--text-primary)' }}>Dashboard</h1>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {user && (
             <Link
               to="/resume-versions"
-              style={{ padding: '8px 16px', background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', textDecoration: 'none', color: '#374151', fontSize: '14px' }}
+              style={{ padding: '8px 16px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '6px', textDecoration: 'none', color: 'var(--text-primary)', fontSize: '14px' }}
             >
               Resume Versions
             </Link>
@@ -88,19 +88,19 @@ function Dashboard() {
           {user && (
             <button
               onClick={handleLogout}
-              style={{ padding: '8px 16px', background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', cursor: 'pointer' }}
+              style={{ padding: '8px 16px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)' }}
             >
               Logout
             </button>
           )}
         </div>
       </div>
-      <p style={{ color: '#6b7280', marginBottom: '28px' }}>
+      <p style={{ color: 'var(--text-secondary)', marginBottom: '28px' }}>
         {user ? `Logged in as: ${user.email}` : 'No user logged in yet'}
       </p>
 
       {user && loadingApps && (
-        <div style={{ padding: '40px', textAlign: 'center', color: '#6b7280', border: '1px dashed #d1d5db', borderRadius: '8px', marginBottom: '24px' }}>
+        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', border: '1px dashed var(--border-color)', borderRadius: '8px', marginBottom: '24px' }}>
           Loading your applications...
         </div>
       )}
@@ -108,7 +108,7 @@ function Dashboard() {
       {user && fetchError && (
         <div
           style={{
-            background: '#fee2e2',
+            background: 'var(--bg-card)',
             border: '1px solid #fca5a5',
             color: '#991b1b',
             padding: '16px',
@@ -133,14 +133,14 @@ function Dashboard() {
         <>
           <AssistantPanel applications={applications} />
 
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+          <div className="dashboard-row" style={{ marginBottom: '20px' }}>
             <StatCard label="Total Applications" value={stats.totalApplications} />
             <StatCard label="Interviews" value={stats.totalInterviews} />
             <StatCard label="Rejections" value={stats.totalRejections} />
             <StatCard label="Offers" value={stats.totalOffers} />
           </div>
 
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '28px', flexWrap: 'wrap' }}>
+          <div className="dashboard-row" style={{ marginBottom: '28px' }}>
             <StatusChart statusCounts={stats.statusCounts} />
             <ConversionRates
               interviewConversionRate={stats.interviewConversionRate}
@@ -148,11 +148,11 @@ function Dashboard() {
             />
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '18px', margin: 0 }}>Your Applications</h2>
+          <div className="header-row" style={{ marginBottom: '16px' }}>
+            <h2 style={{ fontSize: '18px', margin: 0, color: 'var(--text-primary)' }}>Your Applications</h2>
             <Link
               to="/applications/new"
-              style={{ padding: '8px 16px', background: '#1e2761', color: 'white', borderRadius: '6px', textDecoration: 'none', fontSize: '14px', fontWeight: 600 }}
+              style={{ padding: '8px 16px', background: 'var(--accent)', color: 'white', borderRadius: '6px', textDecoration: 'none', fontSize: '14px', fontWeight: 600 }}
             >
               + Add Application
             </Link>

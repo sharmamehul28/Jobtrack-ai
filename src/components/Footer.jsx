@@ -5,8 +5,8 @@ function Footer() {
         textAlign: 'center',
         padding: '20px',
         marginTop: '40px',
-        borderTop: '1px solid #e5e7eb',
-        color: '#6b7280',
+        borderTop: '1px solid var(--border-color)',
+        color: 'var(--text-secondary)',
         fontSize: '13px',
       }}
     >

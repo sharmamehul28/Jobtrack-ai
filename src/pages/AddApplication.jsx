@@ -21,8 +21,8 @@ function AddApplication() {
   }
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h1>Add Application</h1>
+    <div className="page-container">
+      <h1 style={{ color: 'var(--text-primary)' }}>Add Application</h1>
       <ApplicationForm onSubmit={handleSubmit} onCancel={() => navigate('/dashboard')} submitLabel="Save" />
     </div>
   )
